@@ -16,25 +16,15 @@ export const FeaturedProperties: Block = {
     },
     {
       name: 'properties',
-      type: 'array',
+      type: 'relationship',
+      relationTo: 'properties',
+      hasMany: true,
+      required: true,
       minRows: 1,
       maxRows: 8,
-      required: true,
-      fields: [
-        { name: 'image', type: 'upload', relationTo: 'media', required: true },
-        {
-          name: 'status',
-          type: 'select',
-          required: true,
-          options: [
-            { label: 'For sale', value: 'for-sale' },
-            { label: 'For rent', value: 'for-rent' },
-          ],
-        },
-        { name: 'name', type: 'text', required: true },
-        { name: 'location', type: 'text', required: true },
-        { name: 'price', type: 'text', required: true },
-      ],
+      admin: {
+        description: 'Select the property records to feature on the home page.',
+      },
     },
   ],
 }

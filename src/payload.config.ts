@@ -8,7 +8,7 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { emailAdapters } from './adapters/emailAdapters'
-import { Products } from './collections/Products'
+import { Properties } from './collections/Properties'
 import { Pages } from './collections/Pages'
 
 const filename = fileURLToPath(import.meta.url)
@@ -25,7 +25,7 @@ export default buildConfig({
       collections: ['pages'],
     },
   },
-  collections: [Pages, Users, Media, Products],
+  collections: [Pages, Users, Media, Properties],
   email: emailAdapters,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

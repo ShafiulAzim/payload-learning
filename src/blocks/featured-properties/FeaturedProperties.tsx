@@ -1,7 +1,11 @@
 import Image from 'next/image'
+import Link from 'next/link'
+
+import type { Property as PropertyRecord } from '@/payload-types'
 
 type MediaValue = { id: number | string; alt?: string | null; url?: string | null }
-type Property = {
+
+type LegacyProperty = {
   id?: string | null
   image: MediaValue | number | string
   status: 'for-sale' | 'for-rent'
@@ -9,11 +13,12 @@ type Property = {
   location: string
   price: string
 }
+
 type FeaturedPropertiesProps = {
   eyebrow?: string | null
   title: string
   cta?: { label?: string | null; href?: string | null } | null
-  properties: Property[]
+  properties: Array<number | PropertyRecord | LegacyProperty>
   blockType?: 'featured-properties'
 }
 
@@ -45,11 +50,22 @@ export function FeaturedProperties({ eyebrow, title, cta, properties }: Featured
         </header>
         <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {properties.map((property) => {
-            const image = typeof property.image === 'object' ? property.image : null
+            if (typeof property === 'number') return null
+
+            const record = 'cover' in property
+            const imageValue = record ? property.cover : property.image
+            const image = typeof imageValue === 'object' ? imageValue : null
+            const price =
+              typeof property.price === 'number'
+                ? `৳ ${property.price.toLocaleString('en-US')}`
+                : property.price
+
             return (
-              <article
+              <Link
                 key={property.id || property.name}
-                className="overflow-hidden rounded border border-slate-200 bg-white shadow-sm"
+                href={`/properties/${encodeURIComponent(String(property.id))}`}
+                aria-label={`View ${property.name}`}
+                className="group overflow-hidden rounded border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b78a3d]"
               >
                 <div className="relative aspect-[4/2.45] bg-slate-100">
                   {image?.url ? (
@@ -58,7 +74,7 @@ export function FeaturedProperties({ eyebrow, title, cta, properties }: Featured
                       alt={image.alt || property.name}
                       fill
                       sizes="(max-width: 640px) 100vw, 320px"
-                      className="object-cover"
+                      className="object-cover transition duration-500 group-hover:scale-105"
                     />
                   ) : null}
                   <span className="absolute left-3 top-3 rounded-sm bg-white px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide">
@@ -66,11 +82,13 @@ export function FeaturedProperties({ eyebrow, title, cta, properties }: Featured
                   </span>
                 </div>
                 <div className="p-4">
-                  <h3 className="font-serif text-base">{property.name}</h3>
+                  <h3 className="font-serif text-base transition group-hover:text-[#b47f28]">
+                    {property.name}
+                  </h3>
                   <p className="mt-1 text-xs text-slate-500">⌖ {property.location}</p>
-                  <p className="mt-2 text-sm font-semibold text-[#b47f28]">{property.price}</p>
+                  <p className="mt-2 text-sm font-semibold text-[#b47f28]">{price}</p>
                 </div>
-              </article>
+              </Link>
             )
           })}
         </div>

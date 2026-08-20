@@ -70,7 +70,7 @@ export interface Config {
     pages: Page;
     users: User;
     media: Media;
-    products: Product;
+    properties: Property;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -81,7 +81,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    products: ProductsSelect<false> | ProductsSelect<true>;
+    properties: PropertiesSelect<false> | PropertiesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -214,17 +214,79 @@ export interface FeaturedPropertiesBlock {
     label?: string | null;
     href?: string | null;
   };
-  properties: {
-    image: number | Media;
-    status: 'for-sale' | 'for-rent';
-    name: string;
-    location: string;
-    price: string;
-    id?: string | null;
-  }[];
+  /**
+   * Select the property records to feature on the home page.
+   */
+  properties: (number | Property)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'featured-properties';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "properties".
+ */
+export interface Property {
+  id: number;
+  name: string;
+  status: 'for-sale' | 'for-rent';
+  type: 'house' | 'apartment' | 'villa' | 'land' | 'commercial';
+  featured?: boolean | null;
+  price: number;
+  location: string;
+  summary?: string | null;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  cover: number | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  /**
+   * Square feet
+   */
+  area?: number | null;
+  parking?: number | null;
+  features?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  amenities?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  listing?: {
+    name?: string | null;
+    verified?: boolean | null;
+    image?: (number | null) | Media;
+  };
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -250,18 +312,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products".
- */
-export interface Product {
-  id: number;
-  name: string;
-  description?: string | null;
-  price: number;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -300,8 +350,8 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'products';
-        value: number | Product;
+        relationTo: 'properties';
+        value: number | Property;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -434,16 +484,7 @@ export interface FeaturedPropertiesBlockSelect<T extends boolean = true> {
         label?: T;
         href?: T;
       };
-  properties?:
-    | T
-    | {
-        image?: T;
-        status?: T;
-        name?: T;
-        location?: T;
-        price?: T;
-        id?: T;
-      };
+  properties?: T;
   id?: T;
   blockName?: T;
 }
@@ -489,12 +530,53 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products_select".
+ * via the `definition` "properties_select".
  */
-export interface ProductsSelect<T extends boolean = true> {
+export interface PropertiesSelect<T extends boolean = true> {
   name?: T;
-  description?: T;
+  status?: T;
+  type?: T;
+  featured?: T;
   price?: T;
+  location?: T;
+  summary?: T;
+  description?: T;
+  cover?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  bedrooms?: T;
+  bathrooms?: T;
+  area?: T;
+  parking?: T;
+  features?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  amenities?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  listing?:
+    | T
+    | {
+        name?: T;
+        verified?: T;
+        image?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
