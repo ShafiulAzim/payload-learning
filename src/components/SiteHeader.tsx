@@ -7,7 +7,7 @@ type SiteHeaderProps = { links?: NavItem[]; callHref?: string }
 const defaultLinks: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Properties', href: '#properties' },
+  { label: 'Properties', href: '/properties' },
   { label: 'Blog', href: '/blog' },
 ]
 

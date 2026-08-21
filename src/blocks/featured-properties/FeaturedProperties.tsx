@@ -1,13 +1,10 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import type { Property } from '@/payload-types'
 
-import type { Property as PropertyRecord } from '@/payload-types'
-
-type MediaValue = { id: number | string; alt?: string | null; url?: string | null }
+import { PropertyCard, type PropertyCardData } from '@/components/properties/PropertyCard'
 
 type LegacyProperty = {
   id?: string | null
-  image: MediaValue | number | string
+  image: PropertyCardData['cover']
   status: 'for-sale' | 'for-rent'
   name: string
   location: string
@@ -18,11 +15,30 @@ type FeaturedPropertiesProps = {
   eyebrow?: string | null
   title: string
   cta?: { label?: string | null; href?: string | null } | null
-  properties: Array<number | PropertyRecord | LegacyProperty>
+  properties: Array<number | Property | LegacyProperty>
   blockType?: 'featured-properties'
 }
 
+function normalizeProperty(property: number | Property | LegacyProperty): PropertyCardData | null {
+  if (typeof property === 'number') return null
+  if ('cover' in property) return property
+
+  return {
+    id: property.id || property.name,
+    name: property.name,
+    status: property.status,
+    price: property.price,
+    location: property.location,
+    cover: property.image,
+  }
+}
+
 export function FeaturedProperties({ eyebrow, title, cta, properties }: FeaturedPropertiesProps) {
+  const cards = properties.flatMap((property) => {
+    const card = normalizeProperty(property)
+    return card ? [card] : []
+  })
+
   return (
     <section
       id="properties"
@@ -49,48 +65,9 @@ export function FeaturedProperties({ eyebrow, title, cta, properties }: Featured
           ) : null}
         </header>
         <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-          {properties.map((property) => {
-            if (typeof property === 'number') return null
-
-            const record = 'cover' in property
-            const imageValue = record ? property.cover : property.image
-            const image = typeof imageValue === 'object' ? imageValue : null
-            const price =
-              typeof property.price === 'number'
-                ? `৳ ${property.price.toLocaleString('en-US')}`
-                : property.price
-
-            return (
-              <Link
-                key={property.id || property.name}
-                href={`/properties/${encodeURIComponent(String(property.id))}`}
-                aria-label={`View ${property.name}`}
-                className="group overflow-hidden rounded border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b78a3d]"
-              >
-                <div className="relative aspect-[4/2.45] bg-slate-100">
-                  {image?.url ? (
-                    <Image
-                      src={image.url}
-                      alt={image.alt || property.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 320px"
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  ) : null}
-                  <span className="absolute left-3 top-3 rounded-sm bg-white px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide">
-                    {property.status === 'for-sale' ? 'For sale' : 'For rent'}
-                  </span>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-serif text-base transition group-hover:text-[#b47f28]">
-                    {property.name}
-                  </h3>
-                  <p className="mt-1 text-xs text-slate-500">⌖ {property.location}</p>
-                  <p className="mt-2 text-sm font-semibold text-[#b47f28]">{price}</p>
-                </div>
-              </Link>
-            )
-          })}
+          {cards.map((property) => (
+            <PropertyCard key={property.id} property={property} />
+          ))}
         </div>
       </div>
     </section>

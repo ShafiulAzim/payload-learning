@@ -215,7 +215,7 @@ export interface FeaturedPropertiesBlock {
     href?: string | null;
   };
   /**
-   * Select the property records to feature on the home page.
+   * Select from properties marked as featured for the home page.
    */
   properties: (number | Property)[];
   id?: string | null;
