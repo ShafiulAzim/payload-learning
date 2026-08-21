@@ -11,10 +11,7 @@ const defaultLinks: NavItem[] = [
   { label: 'Blog', href: '/blog' },
 ]
 
-export function SiteHeader({
-  links = defaultLinks,
-  callHref = 'tel:+10000000000',
-}: SiteHeaderProps) {
+export function SiteHeader({ links = defaultLinks, callHref = '/book-a-call' }: SiteHeaderProps) {
   const [open, setOpen] = useState(false)
   return (
     <header className="absolute inset-x-0 top-0 z-50 px-4 sm:px-8 lg:px-12">

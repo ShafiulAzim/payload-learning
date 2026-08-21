@@ -5,11 +5,12 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
-import { Users } from './collections/Users'
-import { Media } from './collections/Media'
 import { emailAdapters } from './adapters/emailAdapters'
-import { Properties } from './collections/Properties'
+import { Bookings } from './collections/Bookings'
+import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
+import { Properties } from './collections/Properties'
+import { Users } from './collections/Users'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,7 +26,7 @@ export default buildConfig({
       collections: ['pages'],
     },
   },
-  collections: [Pages, Users, Media, Properties],
+  collections: [Pages, Users, Media, Properties, Bookings],
   email: emailAdapters,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

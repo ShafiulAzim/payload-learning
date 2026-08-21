@@ -33,7 +33,7 @@ describe('home page components', () => {
 
     expect(screen.getByRole('navigation', { name: 'Primary navigation' })).toBeTruthy()
     expect(screen.getByRole('link', { name: 'Properties' }).getAttribute('href')).toBe(
-      '#properties',
+      '/properties',
     )
     expect(screen.getByRole('link', { name: /book a call/i })).toBeTruthy()
   })
