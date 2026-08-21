@@ -22,8 +22,13 @@ export const FeaturedProperties: Block = {
       required: true,
       minRows: 1,
       maxRows: 8,
+      filterOptions: {
+        featured: {
+          equals: true,
+        },
+      },
       admin: {
-        description: 'Select the property records to feature on the home page.',
+        description: 'Select from properties marked as featured for the home page.',
       },
     },
   ],
