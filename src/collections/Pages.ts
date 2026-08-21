@@ -1,5 +1,8 @@
-import { HeroWithSearch } from '@/blocks/heros/config'
+import { AboutIntro } from '@/blocks/about-intro/config'
+import { CoreValues } from '@/blocks/core-values/config'
 import { FeaturedProperties } from '@/blocks/featured-properties/config'
+import { HeroWithSearch } from '@/blocks/heros/config'
+import { StatsBar } from '@/blocks/stats-bar/config'
 import { TrustFeatures } from '@/blocks/trust-features/config'
 import type { CollectionConfig } from 'payload'
 
@@ -26,7 +29,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [HeroWithSearch, TrustFeatures, FeaturedProperties],
+      blocks: [HeroWithSearch, TrustFeatures, FeaturedProperties, AboutIntro, StatsBar, CoreValues],
       required: true,
       admin: {
         initCollapsed: true,

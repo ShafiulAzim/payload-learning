@@ -131,7 +131,14 @@ export interface Page {
   id: number;
   title: string;
   slug: string;
-  layout: (HeroWithSearchBlock | TrustFeaturesBlock | FeaturedPropertiesBlock)[];
+  layout: (
+    | HeroWithSearchBlock
+    | TrustFeaturesBlock
+    | FeaturedPropertiesBlock
+    | AboutIntroBlock
+    | StatsBarBlock
+    | CoreValuesBlock
+  )[];
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -289,6 +296,58 @@ export interface Property {
   };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutIntroBlock".
+ */
+export interface AboutIntroBlock {
+  eyebrow?: string | null;
+  heading: string;
+  body: {
+    text: string;
+    id?: string | null;
+  }[];
+  image: number | Media;
+  cta?: {
+    label?: string | null;
+    href?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'about-intro';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsBarBlock".
+ */
+export interface StatsBarBlock {
+  items: {
+    value: string;
+    label: string;
+    icon: 'key' | 'building' | 'clients' | 'award';
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stats-bar';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CoreValuesBlock".
+ */
+export interface CoreValuesBlock {
+  eyebrow?: string | null;
+  heading: string;
+  items: {
+    icon: 'home' | 'excellence' | 'heart' | 'person' | 'shield' | 'handshake';
+    title: string;
+    description: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'core-values';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -451,6 +510,9 @@ export interface PagesSelect<T extends boolean = true> {
         'hero-with-search'?: T | HeroWithSearchBlockSelect<T>;
         'trust-features'?: T | TrustFeaturesBlockSelect<T>;
         'featured-properties'?: T | FeaturedPropertiesBlockSelect<T>;
+        'about-intro'?: T | AboutIntroBlockSelect<T>;
+        'stats-bar'?: T | StatsBarBlockSelect<T>;
+        'core-values'?: T | CoreValuesBlockSelect<T>;
       };
   publishedAt?: T;
   updatedAt?: T;
@@ -528,6 +590,63 @@ export interface FeaturedPropertiesBlockSelect<T extends boolean = true> {
         href?: T;
       };
   properties?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutIntroBlock_select".
+ */
+export interface AboutIntroBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  body?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  image?: T;
+  cta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsBarBlock_select".
+ */
+export interface StatsBarBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        icon?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CoreValuesBlock_select".
+ */
+export interface CoreValuesBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  items?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 
 type NavItem = { label: string; href: string }
-type SiteHeaderProps = { links?: NavItem[]; callHref?: string }
+type SiteHeaderProps = { links?: NavItem[]; callHref?: string; activeHref?: string }
 const defaultLinks: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
@@ -11,7 +11,11 @@ const defaultLinks: NavItem[] = [
   { label: 'Blog', href: '/blog' },
 ]
 
-export function SiteHeader({ links = defaultLinks, callHref = '/book-a-call' }: SiteHeaderProps) {
+export function SiteHeader({
+  links = defaultLinks,
+  callHref = '/book-a-call',
+  activeHref,
+}: SiteHeaderProps) {
   const [open, setOpen] = useState(false)
   return (
     <header className="absolute inset-x-0 top-0 z-50 px-4 sm:px-8 lg:px-12">
@@ -52,15 +56,19 @@ export function SiteHeader({ links = defaultLinks, callHref = '/book-a-call' }: 
           aria-label="Primary navigation"
           className={`${open ? 'flex' : 'hidden'} absolute left-4 right-4 top-[82px] flex-col gap-5 rounded-xl bg-white p-6 shadow-xl lg:static lg:flex lg:flex-row lg:items-center lg:gap-9 lg:bg-transparent lg:p-0 lg:shadow-none`}
         >
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-xs font-semibold uppercase tracking-[0.08em] hover:text-[#b78a3d]"
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) => {
+            const active = link.href === activeHref
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                aria-current={active ? 'page' : undefined}
+                className={`border-b py-1 text-xs font-semibold uppercase tracking-[0.08em] transition hover:text-[#b78a3d] ${active ? 'border-[#b78a3d] text-[#b78a3d]' : 'border-transparent'}`}
+              >
+                {link.label}
+              </a>
+            )
+          })}
           <a
             href={callHref}
             className="inline-flex items-center justify-center gap-2 rounded bg-[#09243a] px-6 py-3 text-xs font-bold uppercase tracking-[0.06em] text-white"
