@@ -1,9 +1,12 @@
 import Link from 'next/link'
 
+import type { PropertySearchFilters } from '@/lib/properties/search'
+
 type PropertiesPaginationProps = {
   page: number
   totalPages: number
   perPage: number
+  filters?: PropertySearchFilters
 }
 
 type PageItem = number | 'ellipsis'
@@ -25,9 +28,20 @@ function getPageItems(page: number, totalPages: number): PageItem[] {
   return items
 }
 
-const hrefFor = (page: number, perPage: number) => `/properties?page=${page}&perPage=${perPage}`
+const hrefFor = (page: number, perPage: number, filters: PropertySearchFilters = {}) => {
+  const params = new URLSearchParams({ page: String(page), perPage: String(perPage) })
+  if (filters.location) params.set('location', filters.location)
+  if (filters.type) params.set('type', filters.type)
+  if (filters.price) params.set('price', filters.price)
+  return `/properties?${params.toString()}`
+}
 
-export function PropertiesPagination({ page, totalPages, perPage }: PropertiesPaginationProps) {
+export function PropertiesPagination({
+  page,
+  totalPages,
+  perPage,
+  filters,
+}: PropertiesPaginationProps) {
   if (totalPages <= 1) return null
 
   const linkClass =
@@ -36,7 +50,11 @@ export function PropertiesPagination({ page, totalPages, perPage }: PropertiesPa
   return (
     <nav aria-label="Properties pagination" className="mt-12 flex flex-wrap justify-center gap-2">
       {page > 1 ? (
-        <Link href={hrefFor(page - 1, perPage)} className={linkClass} aria-label="Previous page">
+        <Link
+          href={hrefFor(page - 1, perPage, filters)}
+          className={linkClass}
+          aria-label="Previous page"
+        >
           ←
         </Link>
       ) : (
@@ -56,7 +74,7 @@ export function PropertiesPagination({ page, totalPages, perPage }: PropertiesPa
         ) : (
           <Link
             key={item}
-            href={hrefFor(item, perPage)}
+            href={hrefFor(item, perPage, filters)}
             aria-current={item === page ? 'page' : undefined}
             className={`${linkClass} ${item === page ? 'border-[#b78a3d] bg-[#b78a3d] text-white hover:text-white' : ''}`}
           >
@@ -66,7 +84,11 @@ export function PropertiesPagination({ page, totalPages, perPage }: PropertiesPa
       )}
 
       {page < totalPages ? (
-        <Link href={hrefFor(page + 1, perPage)} className={linkClass} aria-label="Next page">
+        <Link
+          href={hrefFor(page + 1, perPage, filters)}
+          className={linkClass}
+          aria-label="Next page"
+        >
           →
         </Link>
       ) : (

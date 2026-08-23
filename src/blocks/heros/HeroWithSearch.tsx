@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import { propertyPriceOptions, propertyTypeOptions } from '@/lib/properties/search'
+
 type MediaValue = { id: number | string; alt?: string | null; url?: string | null }
 type SearchOption = { id?: string | null; label: string; value?: string | null }
 type Search = {
@@ -31,8 +33,8 @@ export function HeroWithSearch({
   search,
 }: HeroWithSearchProps) {
   const media = typeof backgroundImage === 'object' ? backgroundImage : null
-  const propertyTypes = search?.types?.length ? search.types : []
-  const priceRanges = search?.prices?.length ? search.prices : []
+  const propertyTypes = search?.types?.length ? search.types : propertyTypeOptions
+  const priceRanges = search?.prices?.length ? search.prices : propertyPriceOptions
   return (
     <section className="relative isolate min-h-[670px] overflow-visible bg-[#09243a] text-white lg:min-h-[720px]">
       {media?.url ? (
@@ -74,6 +76,7 @@ export function HeroWithSearch({
       </div>
       <form
         action={search?.action || '/properties'}
+        method="get"
         className="absolute inset-x-5 bottom-0 z-10 grid translate-y-1/2 overflow-hidden rounded-xl bg-white p-4 text-[#0a2135] shadow-[0_14px_35px_rgba(6,29,47,0.18)] sm:inset-x-8 md:grid-cols-[1fr_1fr_1fr_auto] md:p-5 lg:inset-x-12 xl:inset-x-[max(4rem,calc((100%-1312px)/2))]"
       >
         <label className="flex flex-col gap-1 border-b border-slate-200 px-3 py-2 md:border-b-0 md:border-r md:px-5">
@@ -96,7 +99,7 @@ export function HeroWithSearch({
           >
             {propertyTypes.map((option) => (
               <option
-                key={option.id || `${option.label}-${option.value}`}
+                key={`${option.label}-${option.value}`}
                 value={option.value || ''}
               >
                 {option.label}
@@ -114,7 +117,7 @@ export function HeroWithSearch({
           >
             {priceRanges.map((option) => (
               <option
-                key={option.id || `${option.label}-${option.value}`}
+                key={`${option.label}-${option.value}`}
                 value={option.value || ''}
               >
                 {option.label}

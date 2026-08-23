@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { propertyPriceOptions, propertyTypeOptions } from '@/lib/properties/search'
+
 export const HeroWithSearch: Block = {
   slug: 'hero-with-search',
   interfaceName: 'HeroWithSearchBlock',
@@ -39,12 +41,7 @@ export const HeroWithSearch: Block = {
           type: 'array',
           required: true,
           minRows: 1,
-          defaultValue: [
-            { label: 'All types', value: '' },
-            { label: 'House', value: 'house' },
-            { label: 'Apartment', value: 'apartment' },
-            { label: 'Villa', value: 'villa' },
-          ],
+          defaultValue: propertyTypeOptions.map((option) => ({ ...option })),
           fields: [
             { name: 'label', type: 'text', required: true },
             { name: 'value', type: 'text' },
@@ -61,12 +58,7 @@ export const HeroWithSearch: Block = {
           type: 'array',
           required: true,
           minRows: 1,
-          defaultValue: [
-            { label: 'Any price', value: '' },
-            { label: 'Up to $500,000', value: '500000' },
-            { label: 'Up to $1,000,000', value: '1000000' },
-            { label: 'Up to $2,500,000', value: '2500000' },
-          ],
+          defaultValue: propertyPriceOptions.map((option) => ({ ...option })),
           fields: [
             { name: 'label', type: 'text', required: true },
             { name: 'value', type: 'text' },
