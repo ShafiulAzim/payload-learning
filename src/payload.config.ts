@@ -6,6 +6,8 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { emailAdapters } from './adapters/emailAdapters'
+import { BlogCategories } from './collections/BlogCategories'
+import { Blogs } from './collections/Blogs'
 import { Bookings } from './collections/Bookings'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
@@ -27,7 +29,7 @@ export default buildConfig({
       collections: ['pages'],
     },
   },
-  collections: [Pages, Users, Media, Properties, Bookings],
+  collections: [Pages, Users, Media, Properties, Bookings, BlogCategories, Blogs],
   globals: [SiteSettings],
   email: emailAdapters,
   editor: lexicalEditor(),
