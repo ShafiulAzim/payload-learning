@@ -93,8 +93,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -800,6 +804,142 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  siteName: string;
+  tagline?: string | null;
+  logo?: (number | null) | Media;
+  header: {
+    links: {
+      label: string;
+      href: string;
+      id?: string | null;
+    }[];
+    cta: {
+      label: string;
+      href: string;
+    };
+  };
+  footer?: {
+    description?: string | null;
+    linkGroups?:
+      | {
+          title: string;
+          links: {
+            label: string;
+            href: string;
+            id?: string | null;
+          }[];
+          id?: string | null;
+        }[]
+      | null;
+    contact?: {
+      email?: string | null;
+      phone?: string | null;
+      address?: string | null;
+    };
+    socialLinks?:
+      | {
+          label: string;
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+    copyright?: string | null;
+  };
+  /**
+   * Header and footer show by default. Add a rule only when a route should hide one.
+   */
+  visibilityRules?:
+    | {
+        /**
+         * Start with /, for example /book-a-call or /properties.
+         */
+        pathname: string;
+        match: 'exact' | 'starts-with';
+        hideHeader?: boolean | null;
+        hideFooter?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  siteName?: T;
+  tagline?: T;
+  logo?: T;
+  header?:
+    | T
+    | {
+        links?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  footer?:
+    | T
+    | {
+        description?: T;
+        linkGroups?:
+          | T
+          | {
+              title?: T;
+              links?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        contact?:
+          | T
+          | {
+              email?: T;
+              phone?: T;
+              address?: T;
+            };
+        socialLinks?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        copyright?: T;
+      };
+  visibilityRules?:
+    | T
+    | {
+        pathname?: T;
+        match?: T;
+        hideHeader?: T;
+        hideFooter?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

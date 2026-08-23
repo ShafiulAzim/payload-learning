@@ -1,11 +1,28 @@
 import { cleanup, render, screen } from '@testing-library/react'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { FeaturedProperties } from '@/blocks/featured-properties/FeaturedProperties'
 import { HeroWithSearch } from '@/blocks/heros/HeroWithSearch'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { TrustFeatures } from '@/blocks/trust-features/TrustFeatures'
-import { SiteHeader } from '@/components/SiteHeader'
+import { GlobalsProvider } from '@/components/globals/GlobalsProvider'
+import { Header } from '@/components/globals/Header'
+import type { SiteGlobals } from '@/components/globals/types'
+
+const globals: SiteGlobals = {
+  brand: { name: 'HOMESPIRE', tagline: 'REAL ESTATE' },
+  header: {
+    links: [
+      { label: 'Home', href: '/' },
+      { label: 'Properties', href: '/properties' },
+    ],
+    cta: { label: 'Book a call', href: '/book-a-call' },
+  },
+  footer: { linkGroups: [], contact: {}, socialLinks: [], copyright: 'Copyright' },
+  visibilityRules: [],
+}
+
+vi.mock('next/navigation', () => ({ usePathname: () => '/' }))
 
 afterEach(cleanup)
 
@@ -29,7 +46,11 @@ describe('home page components', () => {
   })
 
   it('renders the standalone site navigation and call to action', () => {
-    render(<SiteHeader />)
+    render(
+      <GlobalsProvider value={globals}>
+        <Header />
+      </GlobalsProvider>,
+    )
 
     expect(screen.getByRole('navigation', { name: 'Primary navigation' })).toBeTruthy()
     expect(screen.getByRole('link', { name: 'Properties' }).getAttribute('href')).toBe(

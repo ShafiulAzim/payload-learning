@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { SiteHeader } from '@/components/SiteHeader'
 import config from '@/payload.config'
 
 export const dynamic = 'force-dynamic'
@@ -25,7 +24,6 @@ export default async function AboutPage() {
 
   return (
     <>
-      <SiteHeader activeHref="/about" />
       {page ? (
         <RenderBlocks blocks={page.layout} />
       ) : (

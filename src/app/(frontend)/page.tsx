@@ -3,7 +3,6 @@ import { getPayload } from 'payload'
 
 import config from '@/payload.config'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { SiteHeader } from '@/components/SiteHeader'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,10 +28,5 @@ export default async function Page({ params: paramPromise }: Args) {
   const page = result.docs[0]
   if (!page) notFound()
 
-  return (
-    <>
-      <SiteHeader />
-      <RenderBlocks blocks={page.layout} />
-    </>
-  )
+  return <RenderBlocks blocks={page.layout} />
 }

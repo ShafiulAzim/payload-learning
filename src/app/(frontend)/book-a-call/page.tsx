@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { getPayload } from 'payload'
 
 import { BookingForm } from '@/components/booking/BookingForm'
-import { SiteHeader } from '@/components/SiteHeader'
 import config from '@/payload.config'
 
 type Props = {
@@ -62,7 +61,6 @@ export default async function BookACallPage({ searchParams }: Props) {
 
   return (
     <>
-      <SiteHeader callHref="/book-a-call" />
       <section className="min-h-screen bg-[#f7f5f1] px-5 pb-14 pt-32 text-[#0b2237] sm:px-8 lg:px-12 lg:pb-20 lg:pt-36">
         <div className="mx-auto grid max-w-[1376px] overflow-hidden rounded-xl bg-white shadow-[0_18px_60px_rgba(8,34,56,0.12)] lg:grid-cols-[0.82fr_1.18fr]">
           <aside className="relative overflow-hidden bg-[#f1eee7] p-7 sm:p-10 lg:min-h-[700px] lg:p-12">

@@ -5,7 +5,6 @@ import { getPayload } from 'payload'
 import { PropertyCard } from '@/components/properties/PropertyCard'
 import { PropertiesPagination } from '@/components/properties/PropertiesPagination'
 import { PropertiesPerPage } from '@/components/properties/PropertiesPerPage'
-import { SiteHeader } from '@/components/SiteHeader'
 import config from '@/payload.config'
 
 type Props = {
@@ -50,15 +49,6 @@ export default async function PropertiesPage({ searchParams }: Props) {
 
   return (
     <>
-      <SiteHeader
-        links={[
-          { label: 'Home', href: '/' },
-          { label: 'About', href: '/about' },
-          { label: 'Properties', href: '/properties' },
-          { label: 'Blog', href: '/blog' },
-        ]}
-      />
-
       <section className="relative overflow-hidden bg-[#082238] px-5 pb-16 pt-36 text-center text-white sm:px-8 lg:px-12 lg:pb-20 lg:pt-40">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(183,138,61,0.18),transparent_32%)]" />
         <div className="relative mx-auto max-w-[1376px]">

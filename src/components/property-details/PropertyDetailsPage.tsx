@@ -1,5 +1,3 @@
-import { SiteHeader } from '@/components/SiteHeader'
-
 import { ListingAgentCard } from './ListingAgentCard'
 import { PropertyDetailsTabs } from './PropertyDetailsTabs'
 import { PropertyGallery } from './PropertyGallery'
@@ -9,7 +7,6 @@ import type { PropertyDetailsView } from './types'
 export function PropertyDetailsPage({ property }: { property: PropertyDetailsView }) {
   return (
     <>
-      <SiteHeader />
       <div className="bg-[#082238] px-5 pb-5 pt-28 text-white sm:px-8 lg:px-12">
         <nav aria-label="Breadcrumb" className="mx-auto max-w-[1376px] text-[11px] text-white/75">
           <a href="/">Home</a>
@@ -19,7 +16,7 @@ export function PropertyDetailsPage({ property }: { property: PropertyDetailsVie
           <span>{property.name}</span>
         </nav>
       </div>
-      <main className="bg-[#fbfaf8] text-[#0b2237]">
+      <div className="bg-[#fbfaf8] text-[#0b2237]">
         <section className="mx-auto grid max-w-[1376px] lg:grid-cols-[1.35fr_1fr]">
           <PropertyGallery images={property.images} propertyName={property.name} />
           <PropertySummary property={property} />
@@ -34,7 +31,7 @@ export function PropertyDetailsPage({ property }: { property: PropertyDetailsVie
           />
           <ListingAgentCard listing={property.listing} />
         </section>
-      </main>
+      </div>
     </>
   )
 }
