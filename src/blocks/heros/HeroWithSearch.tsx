@@ -43,6 +43,7 @@ export function HeroWithSearch({
           alt={media.alt || ''}
           fill
           priority
+          loading="eager"
           sizes="100vw"
           className="-z-20 object-cover"
         />

@@ -70,6 +70,7 @@ export default async function BookACallPage({ searchParams }: Props) {
                 alt={visualMedia.alt || 'Homespire property interior'}
                 fill
                 priority
+                loading="eager"
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover opacity-20"
               />

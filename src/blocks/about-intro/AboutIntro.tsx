@@ -51,6 +51,7 @@ export function AboutIntro({ eyebrow, heading, body, image, cta }: AboutIntroPro
               alt={media.alt || heading}
               fill
               priority
+              loading="eager"
               sizes="(max-width: 1024px) 100vw, 58vw"
               className="object-cover"
             />
