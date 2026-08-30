@@ -11,7 +11,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 
 export default buildConfig({
   db: mongooseAdapter({
-    url: process.env.DATABASE_URL,
+    url: process.env.DB_DATABASE_URL,
   }),
 })
 ```
@@ -24,7 +24,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 export default buildConfig({
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL,
+      connectionString: process.env.DB_DATABASE_URL,
     },
     push: false, // Don't auto-push schema changes
     migrationDir: './migrations',
